@@ -115,38 +115,10 @@ button:focus-visible, a:focus-visible {
   height: 128px;
   flex: 0 0 auto;
   overflow: hidden;
-  background: linear-gradient(145deg, #b8d4d8 0%, #e4c58a 100%);
+  background: #d6e4e4;
 }
 
-.photo-2 { background: linear-gradient(145deg, #b8d8d2, #e8d99e); }
-.photo-3 { background: linear-gradient(145deg, #91b9a0, #d8cf8d); }
-.photo-4 { background: linear-gradient(145deg, #a7c1cb, #e7a47b); }
-.photo-5 { background: linear-gradient(145deg, #9bbcc0, #e9c477); }
-
-.photo-sun {
-  position: absolute;
-  top: 18px;
-  right: 28px;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: rgba(255, 246, 211, .92);
-  box-shadow: 0 0 32px rgba(255, 249, 218, .65);
-}
-
-.photo-hill { position: absolute; right: -8%; bottom: -38%; left: -8%; height: 83%; border-radius: 0; clip-path: polygon(0 35%, 12% 35%, 12% 4%, 28% 4%, 28% 27%, 42% 27%, 42% 0, 58% 0, 58% 38%, 73% 38%, 73% 12%, 88% 12%, 88% 32%, 100% 32%, 100% 100%, 0 100%); }
-.photo-hill-back { bottom: -51%; background: rgba(54, 107, 111, .54); transform: rotate(-3deg); }
-.photo-hill-front { bottom: -62%; left: 18%; background: rgba(28, 76, 75, .69); transform: rotate(3deg); }
-
-.photo-label {
-  position: absolute;
-  bottom: 12px;
-  left: 14px;
-  color: rgba(33, 66, 52, .75);
-  font-size: .53rem;
-  font-weight: 700;
-  letter-spacing: .14em;
-}
+.itinerary-photo { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
 
 .card-body {
   display: flex;
@@ -236,9 +208,6 @@ button:focus-visible, a:focus-visible {
 .dialog-header h1 { max-width: 720px; margin: .55rem 3rem .5rem 0; font-size: clamp(2.1rem, 4.4vw, 3.8rem); line-height: 1.05; }
 .dialog-meta { margin: 0 0 1.25rem; color: #65766a; font-size: .85rem; }
 .photo-large { height: clamp(180px, 30vw, 310px); border-radius: 18px; }
-.photo-large .photo-sun { top: 13%; right: 15%; width: clamp(56px, 8vw, 94px); height: clamp(56px, 8vw, 94px); }
-.photo-large .photo-label { bottom: 20px; left: 22px; font-size: .63rem; }
-.photo-large .photo-hill { height: 85%; }
 
 .dialog-content { padding: 2.4rem clamp(1.2rem, 7vw, 5rem) 3.4rem; }
 .schedule-section { max-width: 700px; margin: 0 auto; }

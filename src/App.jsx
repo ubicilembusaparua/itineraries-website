@@ -5,14 +5,19 @@ import { choiceMessage, itineraries } from './data/itineraries.js'
 
 const fanOffsets = [-410, -205, 0, 205, 410]
 const fanAngles = [-13, -7, 0, 7, 13]
+const itineraryPhotos = [
+  { src: '/images/itineraries/01-chinatown-glodok.jpg', alt: 'Market street in Glodok with awnings and produce stalls' },
+  { src: '/images/itineraries/02-cikini-situ-lembang.jpg', alt: 'Fountain and lily pond at Taman Situ Lembang' },
+  { src: '/images/itineraries/03-tebet-eco-park.jpg', alt: 'Orange infinity bridge winding through trees at Tebet Eco Park' },
+  { src: '/images/itineraries/04-central-jakarta-museum.jpg', alt: 'Elephant statue in front of the National Museum of Indonesia' },
+  { src: '/images/itineraries/05-hutan-kota-gbk.jpg', alt: 'Jakarta skyline beyond the green lawn at Hutan Kota GBK' },
+]
 
-function PhotoPlaceholder({ index, large = false }) {
+function ItineraryPhoto({ index, large = false }) {
+  const photo = itineraryPhotos[index]
   return (
-    <div className={`photo-placeholder photo-${index + 1}${large ? ' photo-large' : ''}`} aria-label="Photo placeholder">
-      <span className="photo-sun" aria-hidden="true" />
-      <span className="photo-hill photo-hill-back" aria-hidden="true" />
-      <span className="photo-hill photo-hill-front" aria-hidden="true" />
-      <span className="photo-label">Jakarta, out and about</span>
+    <div className={`photo-placeholder${large ? ' photo-large' : ''}`}>
+      <img className="itinerary-photo" src={photo.src} alt={large ? photo.alt : ''} loading={large ? 'eager' : 'lazy'} />
     </div>
   )
 }
@@ -59,7 +64,7 @@ function ItineraryCard({ itinerary, index, active, selected, reducedMotion, comp
       aria-label={`Open ${itinerary.title}`}
       aria-pressed={selected}
     >
-      <PhotoPlaceholder index={index} />
+      <ItineraryPhoto index={index} />
       <span className="card-body">
         <span className="card-index">Plan {String(index + 1).padStart(2, '0')}</span>
         <span className="card-title">{itinerary.title}</span>
@@ -122,7 +127,7 @@ function ItineraryView({ itinerary, index, reducedMotion, onClose, closeRef }) {
           <p className="eyebrow">Jakarta · Plan {String(index + 1).padStart(2, '0')}</p>
           <h1 id="itinerary-title">{itinerary.title}</h1>
           <p className="dialog-meta">Starts {itinerary.start} <span aria-hidden="true">·</span> finishes {itinerary.finish}</p>
-          <PhotoPlaceholder index={index} large />
+          <ItineraryPhoto index={index} large />
         </header>
 
         <div className="dialog-content">
