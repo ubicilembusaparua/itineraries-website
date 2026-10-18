@@ -22,7 +22,7 @@ function ItineraryPhoto({ index, large = false }) {
   )
 }
 
-function ItineraryCard({ itinerary, index, active, selected, reducedMotion, compact, stackPosition, onSelect, onNavigate, onOpen, onPointerInteraction, cardRef }) {
+function ItineraryCard({ itinerary, index, active, selected, reducedMotion, compact, fanScale, stackPosition, onSelect, onNavigate, onOpen, onPointerInteraction, cardRef }) {
   return (
     <motion.button
       ref={cardRef}
@@ -33,7 +33,7 @@ function ItineraryCard({ itinerary, index, active, selected, reducedMotion, comp
       initial={reducedMotion ? false : { opacity: 0, y: 50, scale: 0.92 }}
       animate={{
         opacity: 1,
-        x: compact ? stackPosition * 10 - 10 : fanOffsets[index],
+        x: compact ? stackPosition * 10 - 10 : fanOffsets[index] * fanScale,
         y: compact ? (active ? 0 : -8 - Math.min(Math.abs(stackPosition), 3) * 2) : (active ? -28 : 0),
         scale: compact ? (active ? 1 : 0.97 - Math.min(Math.abs(stackPosition), 3) * 0.01) : (active ? 1.07 : 1),
         rotate: compact ? Math.max(-1.5, Math.min(1.5, stackPosition * 0.35)) : fanAngles[index],
@@ -197,7 +197,9 @@ export default function App() {
   const [compact, setCompact] = useState(() => typeof window !== 'undefined' && window.matchMedia?.('(max-width: 900px)').matches)
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [activeIndex, setActiveIndex] = useState(0)
+  const [fanScale, setFanScale] = useState(1)
   const [isOpen, setIsOpen] = useState(false)
+  const fanRef = useRef(null)
   const cardRefs = useRef([])
   const swipeStart = useRef(null)
   const suppressClick = useRef(false)
@@ -252,6 +254,16 @@ export default function App() {
   }, [])
 
   useEffect(() => {
+    if (compact || !fanRef.current || typeof ResizeObserver === 'undefined') return undefined
+    const resizeObserver = new ResizeObserver(([entry]) => {
+      const availableWidth = entry.contentRect.width
+      setFanScale(Math.min(1, Math.max(0.5, (availableWidth - 302) / 820)))
+    })
+    resizeObserver.observe(fanRef.current)
+    return () => resizeObserver.disconnect()
+  }, [compact])
+
+  useEffect(() => {
     if (isOpen) {
       closeRef.current?.focus()
     } else if (wasOpen.current) {
@@ -288,6 +300,7 @@ export default function App() {
 
       <section className="browse-section" aria-label="Choose your morning plan">
         <div
+          ref={fanRef}
           className={`fan${compact ? ' is-compact' : ''}`}
           aria-label="Five morning plans"
         >
@@ -301,6 +314,7 @@ export default function App() {
               stackPosition={index - activeIndex}
               reducedMotion={reducedMotion}
               compact={compact}
+              fanScale={fanScale}
               onSelect={chooseCard}
               onNavigate={navigateCard}
               onOpen={openItinerary}
