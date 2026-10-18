@@ -33,7 +33,7 @@ function ItineraryCard({ itinerary, index, active, selected, reducedMotion, comp
       initial={reducedMotion ? false : { opacity: 0, y: 50, scale: 0.92 }}
       animate={{
         opacity: 1,
-        x: compact ? stackPosition * 2 : fanOffsets[index],
+        x: compact ? stackPosition * 10 - 10 : fanOffsets[index],
         y: compact ? (active ? 0 : -8 - Math.min(Math.abs(stackPosition), 3) * 2) : (active ? -28 : 0),
         scale: compact ? (active ? 1 : 0.97 - Math.min(Math.abs(stackPosition), 3) * 0.01) : (active ? 1.07 : 1),
         rotate: compact ? Math.max(-1.5, Math.min(1.5, stackPosition * 0.35)) : fanAngles[index],
