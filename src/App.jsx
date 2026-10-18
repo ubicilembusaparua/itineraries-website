@@ -75,7 +75,11 @@ function ItineraryCard({ itinerary, index, active, selected, reducedMotion, comp
         </span>
         {itinerary.availability && <span className="card-availability">{itinerary.availability}</span>}
         <span className="card-preview">{itinerary.stops[0]?.activity}</span>
-        <span className="card-open-hint">Take a peek</span>
+        <span className="card-open-hint">
+          <span className="card-open-hint-desktop">Take a peek</span>
+          <span className="card-open-hint-mobile">Swipe for more · tap to open</span>
+          <span className="card-open-hint-arrow" aria-hidden="true">↔</span>
+        </span>
       </span>
     </motion.button>
   )

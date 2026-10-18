@@ -138,6 +138,7 @@ button:focus-visible, a:focus-visible {
 
 .card-preview { display: -webkit-box; overflow: hidden; margin-top: 9px; color: #58685d; font-size: .65rem; line-height: 1.38; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
 .card-open-hint { display: flex; width: 100%; justify-content: space-between; margin-top: auto; padding-top: 7px; border-top: 1px solid #e7e6dc; color: #3b6f59; font-size: .6rem; font-weight: 700; letter-spacing: .02em; }
+.card-open-hint-mobile, .card-open-hint-arrow { display: none; }
 
 .button {
   display: inline-flex;
@@ -236,6 +237,8 @@ button:focus-visible, a:focus-visible {
   .fan.is-compact { display: grid; height: 390px; overflow: visible; margin: 0 -1rem; padding: .5rem 1rem 1.2rem; touch-action: pan-y; }
   .fan.is-compact .travel-card { position: relative; top: auto; left: auto; grid-area: 1 / 1; align-self: start; justify-self: center; width: min(78vw, 300px); height: 365px; margin: .6rem auto 0; border-radius: 16px; }
   .travel-card.is-active { border-color: #3d7059; background: #eaf0e8; }
+  .card-open-hint-desktop { display: none; }
+  .card-open-hint-mobile, .card-open-hint-arrow { display: inline; }
 }
 
 @media (max-width: 560px) {
