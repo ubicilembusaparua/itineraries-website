@@ -49,6 +49,8 @@ function ItineraryCard({ itinerary, index, active, selected, reducedMotion, comp
       onPointerUp={(event) => onPointerInteraction('pointerup', event)}
       onPointerCancel={() => onPointerInteraction('pointercancel')}
       onClickCapture={(event) => onPointerInteraction('clickcapture', event)}
+      tabIndex={!compact || active ? 0 : -1}
+      inert={compact && !active}
       onKeyDown={(event) => {
         if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault()
@@ -61,12 +63,11 @@ function ItineraryCard({ itinerary, index, active, selected, reducedMotion, comp
           onNavigate(index - 1)
         }
       }}
-      aria-label={`Open ${itinerary.title}`}
-      aria-pressed={selected}
+      aria-label={`Plan ${index + 1} of ${itineraries.length}: ${itinerary.title}. Open itinerary.`}
     >
       <ItineraryPhoto index={index} />
       <span className="card-body">
-        <span className="card-index">Plan {String(index + 1).padStart(2, '0')}</span>
+        <span className="card-index">Plan {String(index + 1).padStart(2, '0')} of {String(itineraries.length).padStart(2, '0')}</span>
         <span className="card-title">{itinerary.title}</span>
         <span className="card-best-for">{itinerary.bestFor}</span>
         <span className="card-times">
@@ -77,7 +78,7 @@ function ItineraryCard({ itinerary, index, active, selected, reducedMotion, comp
         <span className="card-preview">{itinerary.stops[0]?.activity}</span>
         <span className="card-open-hint">
           <span className="card-open-hint-desktop">Take a peek</span>
-          <span className="card-open-hint-mobile">Swipe for more · tap to open</span>
+          <span className="card-open-hint-mobile">Swipe to explore · tap to open</span>
           <span className="card-open-hint-arrow" aria-hidden="true">↔</span>
         </span>
       </span>
@@ -125,6 +126,19 @@ function ItineraryView({ itinerary, index, reducedMotion, onClose, closeRef }) {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={reducedMotion ? undefined : { opacity: 0, y: 24, scale: 0.98 }}
         transition={{ type: 'spring', stiffness: 180, damping: 24, duration: reducedMotion ? 0 : undefined }}
+        onKeyDown={(event) => {
+          if (event.key !== 'Tab') return
+          const focusable = event.currentTarget.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])')
+          const first = focusable[0]
+          const last = focusable[focusable.length - 1]
+          if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault()
+            last?.focus()
+          } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault()
+            first?.focus()
+          }
+        }}
       >
         <button ref={closeRef} className="close-button" type="button" aria-label="Close plan" onClick={onClose}>×</button>
         <header className="dialog-header">
@@ -245,6 +259,13 @@ export default function App() {
     }
     wasOpen.current = isOpen
   }, [isOpen, selectedIndex])
+
+  useEffect(() => {
+    if (!isOpen) return undefined
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = previousOverflow }
+  }, [isOpen])
 
   useEffect(() => {
     if (!isOpen) return undefined
