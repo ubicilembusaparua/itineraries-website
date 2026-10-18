@@ -28,15 +28,15 @@ function ItineraryCard({ itinerary, index, active, selected, reducedMotion, comp
       ref={cardRef}
       type="button"
       className={`travel-card${active ? ' is-active' : ''}${selected ? ' is-selected' : ''}`}
-      style={{ zIndex: active ? 10 : index + 1, '--fan-angle': `${fanAngles[index]}deg` }}
+      style={{ zIndex: compact ? (active ? 10 : 6 - Math.min(Math.abs(stackPosition), 4)) : (active ? 10 : index + 1), '--fan-angle': `${fanAngles[index]}deg` }}
       layoutId={reducedMotion ? undefined : `itinerary-card-${itinerary.id}`}
       initial={reducedMotion ? false : { opacity: 0, y: 50, scale: 0.92 }}
       animate={{
         opacity: 1,
-        x: compact ? stackPosition * 4 : fanOffsets[index],
-        y: compact ? (active ? -8 : 8 + Math.min(Math.abs(stackPosition), 3) * 4) : (active ? -28 : 0),
-        scale: compact ? (active ? 1.02 : 1 - Math.min(Math.abs(stackPosition), 3) * 0.01) : (active ? 1.07 : 1),
-        rotate: compact ? Math.max(-2, Math.min(2, stackPosition * 0.5)) : fanAngles[index],
+        x: compact ? stackPosition * 2 : fanOffsets[index],
+        y: compact ? (active ? 0 : -8 - Math.min(Math.abs(stackPosition), 3) * 2) : (active ? -28 : 0),
+        scale: compact ? (active ? 1 : 0.97 - Math.min(Math.abs(stackPosition), 3) * 0.01) : (active ? 1.07 : 1),
+        rotate: compact ? Math.max(-1.5, Math.min(1.5, stackPosition * 0.35)) : fanAngles[index],
       }}
       transition={reducedMotion ? { duration: 0 } : { type: 'spring', stiffness: 180, damping: 21, delay: active ? 0 : index * 0.04 }}
       onHoverStart={() => onSelect(index, false)}
