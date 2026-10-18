@@ -64,8 +64,6 @@ button:focus-visible, a:focus-visible {
   line-height: 1.03;
 }
 
-.intro h1 span { color: #27634e; font-weight: 500; }
-
 .intro-note {
   max-width: 255px;
   margin: 0 2rem .4rem 1.5rem;
@@ -135,7 +133,7 @@ button:focus-visible, a:focus-visible {
 
 .card-times { display: flex; width: 100%; gap: 22px; margin-top: 10px; color: #304a3c; font-size: .7rem; font-weight: 600; }
 .card-times > span { display: grid; gap: 3px; }
-.card-times small { color: #8a9587; font-size: .48rem; letter-spacing: .14em; }
+.card-times small { color: #8a9587; font-size: .56rem; letter-spacing: .02em; }
 .card-availability { margin-top: 5px; padding: 3px 7px; border-radius: 999px; background: #f4e8d8; color: #876244; font-size: .55rem; font-weight: 700; }
 
 .card-preview { display: -webkit-box; overflow: hidden; margin-top: 9px; color: #58685d; font-size: .65rem; line-height: 1.38; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }

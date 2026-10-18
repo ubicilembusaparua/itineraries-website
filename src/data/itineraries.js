@@ -51,5 +51,5 @@ export function parseItineraries(markdown) {
 export const itineraries = parseItineraries(itineraryMarkdown)
 
 export function choiceMessage(title) {
-  return `I'd love to choose: ${title}. Can we make this happen?`
+  return `I found our next morning out: ${title}. Want to make a morning of it?`
 }

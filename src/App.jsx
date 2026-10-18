@@ -70,12 +70,12 @@ function ItineraryCard({ itinerary, index, active, selected, reducedMotion, comp
         <span className="card-title">{itinerary.title}</span>
         <span className="card-best-for">{itinerary.bestFor}</span>
         <span className="card-times">
-          <span><small>START</small>{itinerary.startTime}</span>
-          <span><small>FINISH</small>{itinerary.finish}</span>
+          <span><small>Start</small>{itinerary.startTime}</span>
+          <span><small>Finish</small>{itinerary.finish}</span>
         </span>
         {itinerary.availability && <span className="card-availability">{itinerary.availability}</span>}
         <span className="card-preview">{itinerary.stops[0]?.activity}</span>
-        <span className="card-open-hint">Open this plan <span aria-hidden="true">↗</span></span>
+        <span className="card-open-hint">Take a peek</span>
       </span>
     </motion.button>
   )
@@ -92,9 +92,9 @@ function ItineraryView({ itinerary, index, reducedMotion, onClose, closeRef }) {
     window.clearTimeout(copyTimer.current)
     try {
       await navigator.clipboard.writeText(message)
-      setCopyStatus('Message copied.')
+      setCopyStatus('Invite copied.')
     } catch {
-      setCopyStatus('Could not copy the message. Please try again.')
+      setCopyStatus('Could not copy the invite. Try again.')
       return
     }
     copyTimer.current = window.setTimeout(() => setCopyStatus(''), 2500)
@@ -122,19 +122,18 @@ function ItineraryView({ itinerary, index, reducedMotion, onClose, closeRef }) {
         exit={reducedMotion ? undefined : { opacity: 0, y: 24, scale: 0.98 }}
         transition={{ type: 'spring', stiffness: 180, damping: 24, duration: reducedMotion ? 0 : undefined }}
       >
-        <button ref={closeRef} className="close-button" type="button" aria-label="Close itinerary" onClick={onClose}>×</button>
+        <button ref={closeRef} className="close-button" type="button" aria-label="Close plan" onClick={onClose}>×</button>
         <header className="dialog-header">
-          <p className="eyebrow">Jakarta · Plan {String(index + 1).padStart(2, '0')}</p>
+          <p className="eyebrow">Your Jakarta morning · Plan {String(index + 1).padStart(2, '0')}</p>
           <h1 id="itinerary-title">{itinerary.title}</h1>
-          <p className="dialog-meta">Starts {itinerary.start} <span aria-hidden="true">·</span> finishes {itinerary.finish}</p>
+          <p className="dialog-meta">On {itinerary.availability.toLowerCase()}, start at {itinerary.startTime} and wrap up {itinerary.finish}.</p>
           <ItineraryPhoto index={index} large />
         </header>
 
         <div className="dialog-content">
           <section className="schedule-section" aria-labelledby="schedule-heading">
             <div className="section-heading">
-              <p className="eyebrow">Your morning, step by step</p>
-              <h2 id="schedule-heading">The plan</h2>
+              <h2 id="schedule-heading">Your route</h2>
             </div>
             <ol className="timeline">
               {itinerary.stops.map((stop) => (
@@ -151,22 +150,21 @@ function ItineraryView({ itinerary, index, reducedMotion, onClose, closeRef }) {
 
           {itinerary.notes.length > 0 && (
             <section className="notes-section" aria-labelledby="notes-heading">
-              <p className="eyebrow">Good to know</p>
-              <h2 id="notes-heading">Notes & links</h2>
+              <h2 id="notes-heading">Before you go</h2>
               {itinerary.notes.map((note) => (
                 <p className="source-note" key={note.text} dangerouslySetInnerHTML={{ __html: note.html }} />
               ))}
             </section>
           )}
 
-          <section className="choose-section" aria-label="Choose this itinerary">
+          <section className="choose-section" aria-label="Share this plan">
             <div>
-              <p className="eyebrow">Sounds like your kind of morning?</p>
-              <p className="choice-caption">Send this plan or copy the message for another chat.</p>
+              <p className="eyebrow">Found your kind of morning?</p>
+              <p className="choice-caption">Send it to your plus-one, or copy the invite for later.</p>
             </div>
             <div className="choice-actions">
-              <a className="button button-primary" href={`https://wa.me/?text=${encodeURIComponent(message)}`} target="_blank" rel="noreferrer">Choose this itinerary <span aria-hidden="true">↗</span></a>
-              <button className="button button-secondary" type="button" onClick={copyMessage}>Copy message</button>
+              <a className="button button-primary" href={`https://wa.me/?text=${encodeURIComponent(message)}`} target="_blank" rel="noreferrer">Send invite on WhatsApp</a>
+              <button className="button button-secondary" type="button" onClick={copyMessage}>Copy invite</button>
               <span className="copy-status" aria-live="polite" role={copyStatus ? 'status' : undefined}>{copyStatus}</span>
             </div>
           </section>
@@ -257,16 +255,16 @@ export default function App() {
     <main className="app-shell">
       <section className="intro" id="top">
         <div>
-          <p className="eyebrow">Five ways to wander Jakarta</p>
-          <h1>Pick a morning<br /><span>that feels like you.</span></h1>
+          <p className="eyebrow">Jakarta before noon</p>
+          <h1>Five Jakarta mornings<br />made for two.</h1>
         </div>
-        <p className="intro-note">A little fresh air, something good to eat, and time to catch up. Choose a card to peek inside.</p>
+        <p className="intro-note">Pick your mood, bring your favorite person, and leave a little room to linger.</p>
       </section>
 
-      <section className="browse-section" aria-label="Browse itineraries">
+      <section className="browse-section" aria-label="Choose your morning plan">
         <div
           className={`fan${compact ? ' is-compact' : ''}`}
-          aria-label="Five itinerary cards"
+          aria-label="Five morning plans"
         >
           {itineraries.map((itinerary, index) => (
             <ItineraryCard
