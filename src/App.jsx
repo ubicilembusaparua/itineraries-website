@@ -12,12 +12,12 @@ function PhotoPlaceholder({ index, large = false }) {
       <span className="photo-sun" aria-hidden="true" />
       <span className="photo-hill photo-hill-back" aria-hidden="true" />
       <span className="photo-hill photo-hill-front" aria-hidden="true" />
-      <span className="photo-label">JAKARTA · PHOTO TO COME</span>
+      <span className="photo-label">Jakarta, out and about</span>
     </div>
   )
 }
 
-function ItineraryCard({ itinerary, index, active, selected, reducedMotion, compact, onSelect, onOpen, cardRef }) {
+function ItineraryCard({ itinerary, index, active, selected, reducedMotion, compact, stackPosition, onSelect, onNavigate, onOpen, onPointerInteraction, cardRef }) {
   return (
     <motion.button
       ref={cardRef}
@@ -28,28 +28,40 @@ function ItineraryCard({ itinerary, index, active, selected, reducedMotion, comp
       initial={reducedMotion ? false : { opacity: 0, y: 50, scale: 0.92 }}
       animate={{
         opacity: 1,
-        x: compact ? 0 : fanOffsets[index],
-        y: active ? -20 : 0,
-        scale: active ? 1.04 : 1,
-        rotate: compact ? 0 : fanAngles[index],
+        x: compact ? stackPosition * 4 : fanOffsets[index],
+        y: compact ? (active ? -8 : 8 + Math.min(Math.abs(stackPosition), 3) * 4) : (active ? -28 : 0),
+        scale: compact ? (active ? 1.02 : 1 - Math.min(Math.abs(stackPosition), 3) * 0.01) : (active ? 1.07 : 1),
+        rotate: compact ? Math.max(-2, Math.min(2, stackPosition * 0.5)) : fanAngles[index],
       }}
-      transition={reducedMotion ? { duration: 0 } : { type: 'spring', stiffness: 150, damping: 20, delay: index * 0.08 }}
+      transition={reducedMotion ? { duration: 0 } : { type: 'spring', stiffness: 180, damping: 21, delay: active ? 0 : index * 0.04 }}
       onHoverStart={() => onSelect(index, false)}
       onFocus={() => onSelect(index, false)}
-      onClick={() => onSelect(index, true)}
+      onClick={() => onOpen(index)}
+      onPointerDown={(event) => {
+        if (compact) event.currentTarget.setPointerCapture(event.pointerId)
+        onPointerInteraction('pointerdown', event)
+      }}
+      onPointerUp={(event) => onPointerInteraction('pointerup', event)}
+      onPointerCancel={() => onPointerInteraction('pointercancel')}
+      onClickCapture={(event) => onPointerInteraction('clickcapture', event)}
       onKeyDown={(event) => {
         if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault()
-          onSelect(index, true)
           onOpen(index)
+        } else if (event.key === 'ArrowRight') {
+          event.preventDefault()
+          onNavigate(index + 1)
+        } else if (event.key === 'ArrowLeft') {
+          event.preventDefault()
+          onNavigate(index - 1)
         }
       }}
-      aria-label={`Select ${itinerary.title}`}
+      aria-label={`Open ${itinerary.title}`}
       aria-pressed={selected}
     >
       <PhotoPlaceholder index={index} />
       <span className="card-body">
-        <span className="card-index">DAY PLAN {String(index + 1).padStart(2, '0')}</span>
+        <span className="card-index">Plan {String(index + 1).padStart(2, '0')}</span>
         <span className="card-title">{itinerary.title}</span>
         <span className="card-best-for">{itinerary.bestFor}</span>
         <span className="card-times">
@@ -107,7 +119,7 @@ function ItineraryView({ itinerary, index, reducedMotion, onClose, closeRef }) {
       >
         <button ref={closeRef} className="close-button" type="button" aria-label="Close itinerary" onClick={onClose}>×</button>
         <header className="dialog-header">
-          <p className="eyebrow">JAKARTA · DAY PLAN {String(index + 1).padStart(2, '0')}</p>
+          <p className="eyebrow">Jakarta · Plan {String(index + 1).padStart(2, '0')}</p>
           <h1 id="itinerary-title">{itinerary.title}</h1>
           <p className="dialog-meta">Starts {itinerary.start} <span aria-hidden="true">·</span> finishes {itinerary.finish}</p>
           <PhotoPlaceholder index={index} large />
@@ -116,7 +128,7 @@ function ItineraryView({ itinerary, index, reducedMotion, onClose, closeRef }) {
         <div className="dialog-content">
           <section className="schedule-section" aria-labelledby="schedule-heading">
             <div className="section-heading">
-              <p className="eyebrow">YOUR MORNING, STEP BY STEP</p>
+              <p className="eyebrow">Your morning, step by step</p>
               <h2 id="schedule-heading">The plan</h2>
             </div>
             <ol className="timeline">
@@ -134,7 +146,7 @@ function ItineraryView({ itinerary, index, reducedMotion, onClose, closeRef }) {
 
           {itinerary.notes.length > 0 && (
             <section className="notes-section" aria-labelledby="notes-heading">
-              <p className="eyebrow">GOOD TO KNOW</p>
+              <p className="eyebrow">Good to know</p>
               <h2 id="notes-heading">Notes & links</h2>
               {itinerary.notes.map((note) => (
                 <p className="source-note" key={note.text} dangerouslySetInnerHTML={{ __html: note.html }} />
@@ -144,7 +156,7 @@ function ItineraryView({ itinerary, index, reducedMotion, onClose, closeRef }) {
 
           <section className="choose-section" aria-label="Choose this itinerary">
             <div>
-              <p className="eyebrow">SOUNDS LIKE YOUR KIND OF MORNING?</p>
+              <p className="eyebrow">Sounds like your kind of morning?</p>
               <p className="choice-caption">Send this plan or copy the message for another chat.</p>
             </div>
             <div className="choice-actions">
@@ -166,14 +178,38 @@ export default function App() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [isOpen, setIsOpen] = useState(false)
   const cardRefs = useRef([])
+  const swipeStart = useRef(null)
+  const suppressClick = useRef(false)
   const closeRef = useRef(null)
   const wasOpen = useRef(false)
   const selectedItinerary = itineraries[selectedIndex]
-  const activeItinerary = itineraries[activeIndex]
+  function chooseCard(index) { setActiveIndex(index) }
 
-  function chooseCard(index, updateSelection) {
-    setActiveIndex(index)
-    if (updateSelection) setSelectedIndex(index)
+  function handleCardPointer(type, event) {
+    if (!compact) return
+    if (type === 'pointerdown') {
+      swipeStart.current = event.clientX
+    }
+    if (type === 'pointercancel') swipeStart.current = null
+    if (type === 'pointerup' && swipeStart.current !== null) {
+      const distance = event.clientX - swipeStart.current
+      swipeStart.current = null
+      if (Math.abs(distance) > 45) {
+        suppressClick.current = true
+        setActiveIndex((current) => Math.max(0, Math.min(itineraries.length - 1, current + (distance < 0 ? 1 : -1))))
+      }
+    }
+    if (type === 'clickcapture' && suppressClick.current) {
+      event.preventDefault()
+      event.stopPropagation()
+      suppressClick.current = false
+    }
+  }
+
+  function navigateCard(index) {
+    const nextIndex = Math.max(0, Math.min(itineraries.length - 1, index))
+    setActiveIndex(nextIndex)
+    cardRefs.current[nextIndex]?.focus()
   }
 
   function openItinerary(index = selectedIndex) {
@@ -214,24 +250,19 @@ export default function App() {
 
   return (
     <main className="app-shell">
-      <header className="site-header">
-        <a className="brand" href="#top" aria-label="A little getaway home">
-          <span className="brand-mark" aria-hidden="true">✳</span>
-          <span>A little getaway</span>
-        </a>
-        <span className="header-note">MADE FOR A MORNING TOGETHER</span>
-      </header>
-
       <section className="intro" id="top">
         <div>
-          <p className="eyebrow">JAKARTA · FIVE WAYS TO WANDER</p>
+          <p className="eyebrow">Five ways to wander Jakarta</p>
           <h1>Pick a morning<br /><span>that feels like you.</span></h1>
         </div>
         <p className="intro-note">A little fresh air, something good to eat, and time to catch up. Choose a card to peek inside.</p>
       </section>
 
       <section className="browse-section" aria-label="Browse itineraries">
-        <div className="fan" aria-label="Five itinerary cards">
+        <div
+          className={`fan${compact ? ' is-compact' : ''}`}
+          aria-label="Five itinerary cards"
+        >
           {itineraries.map((itinerary, index) => (
             <ItineraryCard
               key={itinerary.id}
@@ -239,31 +270,19 @@ export default function App() {
               index={index}
               active={activeIndex === index}
               selected={selectedIndex === index}
+              stackPosition={index - activeIndex}
               reducedMotion={reducedMotion}
               compact={compact}
               onSelect={chooseCard}
+              onNavigate={navigateCard}
               onOpen={openItinerary}
+              onPointerInteraction={handleCardPointer}
               cardRef={(element) => { cardRefs.current[index] = element }}
             />
           ))}
         </div>
 
-        <section className="preview-panel" aria-live="polite" aria-label="Selected itinerary preview">
-          <div className="preview-number">0{activeIndex + 1}<span> / 05</span></div>
-          <div className="preview-copy">
-            <p className="eyebrow">A LITTLE PREVIEW</p>
-            <h2>{activeItinerary.title}</h2>
-            <p>{activeItinerary.stops[0]?.activity}</p>
-            {activeItinerary.availability && <p className="preview-availability">{activeItinerary.availability}</p>}
-          </div>
-          <button className="button button-primary preview-open" type="button" onClick={() => openItinerary(activeIndex)}>Open full itinerary <span aria-hidden="true">↗</span></button>
-        </section>
       </section>
-
-      <footer className="site-footer">
-        <span>TAKE YOUR TIME · THE CITY IS YOURS</span>
-        <span>5 SMALL ADVENTURES, ONE GOOD MORNING</span>
-      </footer>
 
       <AnimatePresence>
         {isOpen && selectedItinerary && (
