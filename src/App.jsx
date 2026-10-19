@@ -39,7 +39,7 @@ function ItineraryCard({ itinerary, index, active, selected, reducedMotion, comp
         scale: compact ? (active ? 1 : 0.97 - Math.min(Math.abs(stackPosition), 3) * 0.01) : (active ? 1.07 : 1),
         rotate: compact ? Math.max(-1.5, Math.min(1.5, stackPosition * 0.35)) : fanAngles[index],
       }}
-      transition={reducedMotion ? { duration: 0 } : { type: 'spring', stiffness: 180, damping: 21, delay: active ? 0 : index * 0.04 }}
+      transition={reducedMotion ? { duration: 0 } : { type: 'spring', stiffness: 280, damping: 30, mass: 0.8 }}
       onHoverStart={() => onSelect(index, false)}
       onFocus={() => onSelect(index, false)}
       onClick={() => onOpen(index)}
