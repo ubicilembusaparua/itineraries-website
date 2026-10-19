@@ -5,12 +5,13 @@ import { choiceMessage, itineraries } from './data/itineraries.js'
 
 const fanOffsets = [-410, -205, 0, 205, 410]
 const fanAngles = [-13, -7, 0, 7, 13]
+const baseUrl = import.meta.env.BASE_URL
 const itineraryPhotos = [
-  { src: '/images/itineraries/01-chinatown-glodok.jpg', alt: 'Market street in Glodok with awnings and produce stalls' },
-  { src: '/images/itineraries/02-cikini-situ-lembang.jpg', alt: 'Fountain and lily pond at Taman Situ Lembang' },
-  { src: '/images/itineraries/03-tebet-eco-park.jpg', alt: 'Orange infinity bridge winding through trees at Tebet Eco Park' },
-  { src: '/images/itineraries/04-central-jakarta-museum.jpg', alt: 'Elephant statue in front of the National Museum of Indonesia' },
-  { src: '/images/itineraries/05-hutan-kota-gbk.jpg', alt: 'Jakarta skyline beyond the green lawn at Hutan Kota GBK' },
+  { src: `${baseUrl}images/itineraries/01-chinatown-glodok.jpg`, alt: 'Market street in Glodok with awnings and produce stalls' },
+  { src: `${baseUrl}images/itineraries/02-cikini-situ-lembang.jpg`, alt: 'Fountain and lily pond at Taman Situ Lembang' },
+  { src: `${baseUrl}images/itineraries/03-tebet-eco-park.jpg`, alt: 'Orange infinity bridge winding through trees at Tebet Eco Park' },
+  { src: `${baseUrl}images/itineraries/04-central-jakarta-museum.jpg`, alt: 'Elephant statue in front of the National Museum of Indonesia' },
+  { src: `${baseUrl}images/itineraries/05-hutan-kota-gbk.jpg`, alt: 'Jakarta skyline beyond the green lawn at Hutan Kota GBK' },
 ]
 
 function ItineraryPhoto({ index, large = false }) {
