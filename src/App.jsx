@@ -7,9 +7,9 @@ const fanOffsets = [-410, -205, 0, 205, 410]
 const fanAngles = [-13, -7, 0, 7, 13]
 const baseUrl = import.meta.env.BASE_URL
 const itineraryPhotos = [
-  { src: `${baseUrl}images/itineraries/01-chinatown-glodok.jpg`, alt: 'Market street in Glodok with awnings and produce stalls' },
-  { src: `${baseUrl}images/itineraries/02-cikini-situ-lembang.jpg`, alt: 'Fountain and lily pond at Taman Situ Lembang' },
-  { src: `${baseUrl}images/itineraries/03-tebet-eco-park.jpg`, alt: 'Orange infinity bridge winding through trees at Tebet Eco Park' },
+  { src: `${baseUrl}images/itineraries/01-chinatown-glodok.jpeg`, alt: 'Market street in Glodok with awnings and produce stalls' },
+  { src: `${baseUrl}images/itineraries/02-cikini-situ-lembang.jpeg`, alt: 'Fountain and lily pond at Taman Situ Lembang' },
+  { src: `${baseUrl}images/itineraries/03-tebet-eco-park.webp`, alt: 'Orange infinity bridge winding through trees at Tebet Eco Park' },
   { src: `${baseUrl}images/itineraries/04-central-jakarta-museum.jpg`, alt: 'Elephant statue in front of the National Museum of Indonesia' },
   { src: `${baseUrl}images/itineraries/05-hutan-kota-gbk.jpg`, alt: 'Jakarta skyline beyond the green lawn at Hutan Kota GBK' },
 ]
@@ -299,7 +299,7 @@ export default function App() {
       <section className="intro" id="top">
         <div>
           <p className="eyebrow">Jakarta before noon</p>
-          <h1>Five Jakarta mornings<br />made for two.</h1>
+          <h1>Where to go in Jakarta<br /></h1>
         </div>
         <p className="intro-note">Pick your mood, bring your favorite person, and leave a little room to linger.</p>
       </section>

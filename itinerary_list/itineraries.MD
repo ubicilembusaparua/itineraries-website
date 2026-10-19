@@ -1,8 +1,8 @@
-# Five Jakarta mornings for two
+# Where to go in Jakarta
 
-Five easy Saturday or Sunday plans for two. Pick your mood, bring your favorite person, and leave room for snacks and long chats. Times are flexible; Jakarta traffic has its own schedule, so give each transfer a little wiggle room.
+Five easy Saturday or Sunday plans for two or more. Pick your mood, bring your favorite person, and leave room for snacks and long chats. Times are flexible; Jakarta traffic has its own schedule, so give each transfer a little wiggle room.
 
-## 1. Glodok breakfast and old-town wandering
+## 1. Glodok - Kota Tua
 
 **Best for:** street-food fans and old-town wanderers · **Start:** 08:00, Saturday or Sunday · **Finish:** around 13:00
 
@@ -14,7 +14,7 @@ Five easy Saturday or Sunday plans for two. Pick your mood, bring your favorite 
 | 10:30–12:00 | Kota Tua and Kali Besar | Follow the canal, explore Fatahillah Square, and snap your favorite old-town details. |
 | 12:00–13:00 | Lunch near Kota Tua | Pick a nearby lunch spot and give the morning a tasty finish. |
 
-## 2. A lakeside stroll and book swap in Cikini
+## 2. Taman Situ Lembang - Perpus Jakarta
 
 **Best for:** quiet catch-ups and bookish surprises · **Start:** 08:00, Saturday or Sunday · **Finish:** around 13:00
 
@@ -27,7 +27,7 @@ Five easy Saturday or Sunday plans for two. Pick your mood, bring your favorite 
 
 Planning to linger? [Perpustakaan Jakarta](https://perpustakaan.jakarta.go.id/supports/about-us) lists weekend hours as 09:00–22:00.
 
-## 3. Green in Tebet, then a little Blok M
+## 3. Tebet Eco Pak - Blok M
 
 **Best for:** fresh air, casual bites, and a Blok M browse · **Start:** 07:00, Saturday or Sunday · **Finish:** around 13:00
 
@@ -41,7 +41,7 @@ Planning to linger? [Perpustakaan Jakarta](https://perpustakaan.jakarta.go.id/su
 
 Good news: entry to [Tebet Eco Park](https://tebetecopark.jakarta.go.id/v144/t101/informasi) is free. Its listed daily hours are 06:00–20:00.
 
-## 4. Park paths, museum treasures, and lunch downtown
+## 4. Musesum Nasional - Pos Bloc
 
 **Best for:** a little history, a cool indoor break, and a good lunch · **Start:** 07:30, Saturday or Sunday · **Finish:** around 13:30
 
@@ -55,7 +55,7 @@ Good news: entry to [Tebet Eco Park](https://tebetecopark.jakarta.go.id/v144/t10
 
 Museum stop on your mind? [Museum Nasional](https://www.museumnasional.or.id/layanan-blu/) lists Friday–Sunday hours as 08:00–20:00. Admission is paid.
 
-## 5. A skyline stroll and culture stop in Kuningan
+## 5. Hutan Kota GBK - Kuningan
 
 **Best for:** green views, city skylines, and a culture fix · **Start:** 07:00, **Saturday only** · **Finish:** around 12:30
 
