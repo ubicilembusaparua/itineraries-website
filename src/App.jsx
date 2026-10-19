@@ -212,15 +212,20 @@ export default function App() {
   function handleCardPointer(type, event) {
     if (!compact) return
     if (type === 'pointerdown') {
-      swipeStart.current = event.clientX
+      suppressClick.current = false
+      swipeStart.current = { x: event.clientX, y: event.clientY }
     }
-    if (type === 'pointercancel') swipeStart.current = null
-    if (type === 'pointerup' && swipeStart.current !== null) {
-      const distance = event.clientX - swipeStart.current
+    if (type === 'pointercancel') {
       swipeStart.current = null
-      if (Math.abs(distance) > 45) {
+      suppressClick.current = false
+    }
+    if (type === 'pointerup' && swipeStart.current !== null) {
+      const distanceX = event.clientX - swipeStart.current.x
+      const distanceY = event.clientY - swipeStart.current.y
+      swipeStart.current = null
+      if (Math.abs(distanceX) > 55 && Math.abs(distanceX) > Math.abs(distanceY)) {
         suppressClick.current = true
-        setActiveIndex((current) => Math.max(0, Math.min(itineraries.length - 1, current + (distance < 0 ? 1 : -1))))
+        setActiveIndex((current) => Math.max(0, Math.min(itineraries.length - 1, current + (distanceX < 0 ? 1 : -1))))
       }
     }
     if (type === 'clickcapture' && suppressClick.current) {
